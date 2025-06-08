@@ -1,0 +1,13 @@
+---
+title: "Assignment 4"
+format: pdf
+editor: visual
+---
+
+## Part 2
+
+Question 1
+
+```{r}
+link <- "https://www.reddit.com/r/torontomapleleafs/comments/1kusd5v/does_florida_beating_the_absolute_wheels_off.json"
+```
