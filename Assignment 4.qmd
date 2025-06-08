@@ -1,6 +1,6 @@
 ---
 title: "Assignment 4"
-format: pdf
+format: html
 editor: visual
 ---
 
@@ -16,6 +16,7 @@ library(jsonlite)
 library(httr)
 library(rvest)
 library(xml2)
+library(gt)
 ```
 
 ```{r}
@@ -32,9 +33,14 @@ tib <- df1 |>
     "created_utc (timestamp)" = data.created_utc,
     num_comments = data.num_comments,
     "ups (upvotes)" = data.ups,
-    "downs (downvotes)" = data.downs) |>
-  str_wrap(width = 20)
+    "downs (downvotes)" = data.downs)
 
-tib
-
+gt(tib) |>
+   fmt_markdown(columns = permalink) |>
+  tab_style(
+    style = list(
+      css("white-space"= "normal"),
+      css("word-break" = "break-all")),
+    locations = cells_body(columns = permalink))
+ 
 ```
