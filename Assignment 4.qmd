@@ -8,6 +8,33 @@ editor: visual
 
 Question 1
 
+```{r, warning=FALSE, message=FALSE}
+# Libraries
+library(tidyverse)
+library(repurrrsive)
+library(jsonlite)
+library(httr)
+library(rvest)
+library(xml2)
+```
+
 ```{r}
-link <- "https://www.reddit.com/r/torontomapleleafs/comments/1kusd5v/does_florida_beating_the_absolute_wheels_off.json"
+data1 <- fromJSON("https://www.reddit.com/r/torontomapleleafs/comments/1kusd5v/does_florida_beating_the_absolute_wheels_off.json", flatten = T)
+
+df1 <- data1$data.children[[1]]
+
+tib <- df1 |>
+  select(
+    subreddit = data.subreddit,
+    permalink = data.permalink,
+    author = data.author,
+    title = data.title,
+    "created_utc (timestamp)" = data.created_utc,
+    num_comments = data.num_comments,
+    "ups (upvotes)" = data.ups,
+    "downs (downvotes)" = data.downs) |>
+  str_wrap(width = 20)
+
+tib
+
 ```
