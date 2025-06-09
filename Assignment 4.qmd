@@ -72,7 +72,7 @@ html1 |>
 
 #### Using CSS Selectors:
 
-```{r}
+```{r, warning = F, message = F}
 # Getting all the table data
 table <- html1 |> html_elements("table#skaters_play_by_play_all")
 
@@ -93,7 +93,8 @@ first_col <- c(seasons, footer_headers)
 table_data <- cbind(first_col, table_data)
 
 # Turning the table into a tibble
-extra_stats <- as_tibble(table_data)
+extra_stats <- as_tibble(table_data) |>
+  mutate(across(everything(), ~ na_if(.x, "")))
 
 #Adding headers
 colnames(extra_stats) <- header
