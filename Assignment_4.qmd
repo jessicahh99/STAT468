@@ -92,12 +92,23 @@ first_col <- c(seasons, footer_headers)
 # Combining my first column and table to get the entire "body" of the table
 table_data <- cbind(first_col, table_data)
 
-# Turning the table into a tibble
+# Turning the table into a tibble and turning characters into numeric values (if applicable)
 extra_stats <- as_tibble(table_data) |>
-  mutate(across(everything(), ~ na_if(.x, "")))
+  mutate(across(everything(), ~ na_if(.x, ""))) |>
+  mutate(across(where(~ all(is.na(.) | str_detect(., "^\\d+$"))), as.numeric))
 
 #Adding headers
 colnames(extra_stats) <- header
   
 extra_stats
+```
+
+### Question 3
+
+```{r, warning = F}
+library(duckdb) con <- DBI::dbConnect(duckdb())
+
+dbWriteTable(con, "extra_stats", extra_stats)
+
+as_tibble(dbGetQuery(con, "SELECT MAX(G) FROM extra_stats WHERE AGE>0"))
 ```
