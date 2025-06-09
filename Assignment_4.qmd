@@ -105,11 +105,15 @@ extra_stats
 
 ### Question 3
 
-```{r, warning = F}
+as_tibble(dbGetQuery(con, "SELECT MAX(G) FROM extra_stats WHERE Team = CHI"))
+
+```{r, warning = F, message = F}
 library(duckdb)
 con <- DBI::dbConnect(duckdb())
 
 dbWriteTable(con, "extra_stats", extra_stats)
 
-as_tibble(dbGetQuery(con, "SELECT MAX(G) FROM extra_stats WHERE AGE>0"))
+# Finds the maximum number of goals Connor Bedard has had in a season
+
+dbGetQuery(con, "SELECT MAX(G) FROM extra_stats WHERE Team = 'CHI'")
 ```
